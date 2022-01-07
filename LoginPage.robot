@@ -18,6 +18,18 @@ Check empty input
     Textfield Value Should Be        id:user-name    ${EMPTY}
     Textfield Value Should Be        id:password     ${EMPTY}
 
+Validate field username 
+    Click Element    id:login-button
+    ${Text_error}=   Get text   xpath://*[@data-test="error"]
+    Should Be Equal As Strings  ${Text_error}   Epic sadface: Username is required
+
+Validate field password
+    Input Text       id:user-name    Test_username
+    Click Element    id:login-button
+    ${Text_error}=   Get text   xpath://*[@data-test="error"]
+    Should Be Equal As Strings  ${Text_error}   Epic sadface: Password is required
+    Clear Element Text  id:user-name
+
 login Pass
     [Arguments]      ${Username}      ${password} 
     Input Text       id:user-name     ${Username} 
@@ -40,6 +52,10 @@ login fail
 Check defualt
     Open browser of website         ${URL}      ${Browser}
     Check empty input
+
+Response text for validate field
+    Validate field username     
+    Validate field password      
 
 login
     login fail                      ${Username_accepted}    ${Password_unaccepted}
